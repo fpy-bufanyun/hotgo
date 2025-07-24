@@ -7,15 +7,16 @@ package cmd
 
 import (
 	"context"
-	"github.com/douyu/jupiter"
 	"github.com/douyu/jupiter/pkg/registry/etcdv3"
 	"github.com/douyu/jupiter/pkg/server/xgoframe"
+	"github.com/douyu/jupiter/pkg/server/xgrpc"
 	"github.com/douyu/jupiter/pkg/xlog"
 	"github.com/gogf/gf/v2/frame/g"
 	"github.com/gogf/gf/v2/net/ghttp"
 	"github.com/gogf/gf/v2/os/gcmd"
 	"github.com/gogf/gf/v2/os/gctx"
 	"github.com/gogf/gf/v2/util/gmode"
+	grpcservice "hotgo/internal/grpc/service"
 	"hotgo/internal/library/addons"
 	"hotgo/internal/library/casbin"
 	"hotgo/internal/library/hggen"
@@ -39,23 +40,27 @@ var (
 	}
 )
 
-type Engine struct {
-	jupiter.Application
-}
-
 func NewEngine() *Engine {
-	eng := &Engine{}
-
-	if err := eng.Startup(
-		eng.serveHTTP,
+	engine := Default
+	if err := engine.Startup(
+		engine.serveHTTP, engine.serveGrpc,
 	); err != nil {
 		xlog.Default().Panic("startup", xlog.Any("err", err))
 	}
-	return eng
+	return engine
+}
+
+// GRPC地址
+func (engine *Engine) serveGrpc() error {
+	server := xgrpc.StdConfig("grpc").MustBuild()
+
+	grpcservice.Register(server)
+
+	return engine.Serve(server)
 }
 
 // HTTP地址
-func (eng *Engine) serveHTTP() error {
+func (engine *Engine) serveHTTP() error {
 	ctx := gctx.New()
 
 	// 该步骤一定要放到下面g.Server("hotgo")初始化之前
@@ -137,9 +142,9 @@ func (eng *Engine) serveHTTP() error {
 	server.Server = s
 
 	registry := etcdv3.StdConfig("hw").MustBuild()
-	eng.SetRegistry(
+	engine.SetRegistry(
 		registry,
 	)
 
-	return eng.Serve(server)
+	return engine.Serve(server)
 }

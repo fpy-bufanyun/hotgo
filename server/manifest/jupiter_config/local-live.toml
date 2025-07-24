@@ -1,0 +1,84 @@
+[jupiter]
+    mode = "local"
+
+    [jupiter.registry.default]
+        endpoints = ["localhost:2379"]
+        timeout = "3s"
+    [jupiter.registry.hw]
+        configKey="jupiter.registry.default"
+        timeout = "1s"
+    [jupiter.logger.default]
+        debug = true  # 是否在命令行输出
+        enableConsole = true # 是否按命令行格式输出
+        level = "info"
+        dir = "./logs/"
+    [jupiter.logger.jupiter]
+        # debug = true
+        level = "info"
+        dir = "./logs/"
+
+    [jupiter.trace.jaeger]
+        endpoint = "http://localhost:14268/api/traces"
+        sampler = 1
+
+        # [jupiter.trace.otelgrpc]
+        #     endpoint = "localhost:4317"
+        #     sampler = 1
+
+[jupiter.server]
+    [jupiter.server.http]
+        port = 8010
+    [jupiter.server.grpc]
+        port = 9528
+    [jupiter.server.govern]
+        port = 9529
+
+[jupiter.grpc]
+    [jupiter.grpc.hw]
+        addr = "127.0.0.1:9528"
+        timeout = "3s"
+
+    [jupiter.mysql.hw]
+        dsn = "root:root@tcp(127.0.0.1:3306)/juno?timeout=20s&readTimeout=20s"
+        debug = true
+        maxIdleConns = 50
+        connMaxLifeTime = "20m"
+        level = "panic"
+        slowThreshold = "400ms"
+        dialTimeout = "1s"
+
+    [jupiter.rocketmq.hw]
+        [jupiter.rocketmq.hw.consumer]
+            enable = true
+            addr = ["127.0.0.1:9876"]
+            group = "testGroup"
+            dialTimeout = "3s"
+            rwTimeout = "3s"
+            topic = "DefaultCluster"
+            subExpression = "*"
+            rate = 100
+            enableTrace = true
+        [jupiter.rocketmq.hw.producer]
+            group = "testGroup"
+            addr = ["127.0.0.1:9876"]
+            dialTimeout = "3s"
+            rwTimeout = "3s"
+            topic = "DefaultCluster"
+            enableTrace = true
+
+[jupiter.resty.hw]
+    addr = "http://127.0.0.1:9527"
+
+[jupiter.redis.hw]
+    [jupiter.redis.hw.stub]
+        debug = false
+        maxIdle = 10
+        maxActive = 50
+        dialTimeout = "2s"
+        readTimeout = "2s"
+        idleTimeout = "60s"
+        enableAccessLog = false
+        [jupiter.redis.hw.stub.master]
+            addr = "redis://@127.0.0.1:6379"
+        [jupiter.redis.hw.stub.slaves]
+            addr = ["redis://@127.0.0.1:6379"]

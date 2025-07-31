@@ -49,6 +49,7 @@ require (
 
 require (
 	aead.dev/minisign v0.2.0 // indirect
+	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.36.6-20250717165733-d22d418d82d8.1 // indirect
 	github.com/BurntSushi/toml v1.4.0 // indirect
 	github.com/alex-ant/gomath v0.0.0-20160516115720-89013a210a82 // indirect
 	github.com/alibaba/sentinel-golang v1.0.4 // indirect
@@ -184,7 +185,7 @@ require (
 	go.uber.org/automaxprocs v1.5.3 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	golang.org/x/crypto v0.39.0 // indirect
-	golang.org/x/exp v0.0.0-20221031165847-c99f073a8326 // indirect
+	golang.org/x/exp v0.0.0-20240325151524-a685a6edb6d8 // indirect
 	golang.org/x/image v0.25.0 // indirect
 	golang.org/x/sync v0.15.0 // indirect
 	golang.org/x/sys v0.33.0 // indirect
@@ -193,7 +194,7 @@ require (
 	golang.org/x/time v0.12.0 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20241104194629-dd2ea8efbc28 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20241104194629-dd2ea8efbc28 // indirect
-	google.golang.org/protobuf v1.35.1 // indirect
+	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.0.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
@@ -203,4 +204,4 @@ require (
 
 replace github.com/douyu/jupiter v0.11.20 => gitee.com/fpy-go/jupiter v0.11.21
 
-replace github.com/douyu/proto v0.0.0-20230923021402-b62cfdf604e8 => gitee.com/fpy-go/douyu-proto v0.0.0-20250723162225-616993dcce18
+replace github.com/douyu/proto v0.0.0-20230923021402-b62cfdf604e8 => gitee.com/fpy-go/douyu-proto v0.0.0-20250730081322-58f73d17875c
